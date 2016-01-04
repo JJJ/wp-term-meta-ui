@@ -117,7 +117,7 @@ class WP_Term_Meta_UI {
 		$this->fancy      = apply_filters( "wp_fancy_term_{$this->meta_key}", true );
 
 		// Register Meta
-		add_action( 'init', array( $this, 'register_meta' ) );
+		$this->register_meta();
 
 		// Queries
 		add_action( 'create_term', array( $this, 'save_meta' ), 10, 2 );
