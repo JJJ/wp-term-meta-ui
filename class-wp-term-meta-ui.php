@@ -9,7 +9,7 @@
  * and handle the sanitization & saving of values.
  *
  * @since 0.1.1
- * @version 0.1.8
+ * @version 0.1.9
  *
  * @package Plugins/Terms/Metadata/UI
  */
@@ -158,8 +158,9 @@ class WP_Term_Meta_UI {
 
 		// Only blog admin screens
 		if ( is_blog_admin() || doing_action( 'wp_ajax_inline_save_tax' ) ) {
-			add_action( 'admin_init',         array( $this, 'admin_init' ) );
-			add_action( 'load-edit-tags.php', array( $this, 'edit_tags'  ) );
+			add_action( 'admin_init',         array( $this, 'admin_init'     ) );
+			add_action( 'load-edit-tags.php', array( $this, 'edit_tags_page' ) );
+			add_action( 'load-term.php',      array( $this, 'term_page'      ) );
 		}
 	}
 
@@ -229,23 +230,38 @@ class WP_Term_Meta_UI {
 	 *
 	 * @since 0.1.0
 	 */
-	public function edit_tags() {
+	public function edit_tags_page() {
 
 		// Bail if taxonomy does not include colors
-		if ( empty( $GLOBALS['taxnow'] ) || ! in_array( $GLOBALS['taxnow'], $this->taxonomies, true ) ) {
+		if ( empty( $_REQUEST['taxonomy'] ) || ! in_array( $_REQUEST['taxonomy'], $this->taxonomies, true ) ) {
 			return;
 		}
 
 		// Enqueue javascript
-		add_action( 'admin_head-term.php',               array( $this, 'help_tabs'       ) );
 		add_action( 'admin_head-edit-tags.php',          array( $this, 'help_tabs'       ) );
-		add_action( 'admin_head-term.php',               array( $this, 'admin_head'      ) );
 		add_action( 'admin_head-edit-tags.php',          array( $this, 'admin_head'      ) );
-		add_action( 'admin_print_scripts-term.php',      array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_print_scripts-edit-tags.php', array( $this, 'enqueue_scripts' ) );
 
 		// Quick edit
 		add_action( 'quick_edit_custom_box', array( $this, 'quick_edit_meta' ), 10, 3 );
+	}
+
+	/**
+	 * Administration area hooks
+	 *
+	 * @since 0.1.9
+	 */
+	public function term_page() {
+
+		// Bail if taxonomy does not include colors
+		if ( empty( $_REQUEST['taxonomy'] ) || ! in_array( $_REQUEST['taxonomy'], $this->taxonomies, true ) ) {
+			return;
+		}
+
+		// Enqueue javascript
+		add_action( 'admin_head-term.php',          array( $this, 'help_tabs'       ) );
+		add_action( 'admin_head-term.php',          array( $this, 'admin_head'      ) );
+		add_action( 'admin_print_scripts-term.php', array( $this, 'enqueue_scripts' ) );
 	}
 
 	/** Get Terms *************************************************************/
@@ -353,17 +369,6 @@ class WP_Term_Meta_UI {
 	 * @since 0.1.1
 	 */
 	public function ajax_update() {}
-
-	/**
-	 * Return the formatted output for the colomn row
-	 *
-	 * @since 0.1.2
-	 *
-	 * @param string $meta
-	 */
-	protected function format_output( $meta = '' ) {
-		return esc_html( $meta );
-	}
 
 	/**
 	 * Return the taxonomies used by this plugin
