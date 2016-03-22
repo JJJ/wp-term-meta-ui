@@ -355,6 +355,17 @@ class WP_Term_Meta_UI {
 	public function ajax_update() {}
 
 	/**
+	 * Return the formatted output for the colomn row
+	 *
+	 * @since 0.1.2
+	 *
+	 * @param string $meta
+	 */
+	protected function format_output( $meta = '' ) {
+		return esc_html( $meta );
+	}
+
+	/**
 	 * Return the taxonomies used by this plugin
 	 *
 	 * @since 0.1.0
