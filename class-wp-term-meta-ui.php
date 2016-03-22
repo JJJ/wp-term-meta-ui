@@ -168,6 +168,9 @@ class WP_Term_Meta_UI {
 				add_action( 'load-term.php',      array( $this, 'term_page'      ) );
 			}
 		}
+
+		// Pass ths object into an action
+		do_action( "wp_term_meta_{$this->meta_key}_init", $this );
 	}
 
 	/**
