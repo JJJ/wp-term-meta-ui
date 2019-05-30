@@ -1,6 +1,8 @@
 # WP Term Meta UI
 
-A base UI class for a term metadata user interface
+A base UI class for quickly adding a term metadata user interface.
+
+Requires PHP 5.6.20.
 
 # Used By
 * [WP Term Authors](https://wordpress.org/plugins/wp-term-authors/ "Authors for categories, tags, and other taxonomy terms.")
