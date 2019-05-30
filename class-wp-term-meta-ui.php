@@ -16,7 +16,7 @@ namespace JJJ\WP\Term\Meta;
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
-if ( ! class_exists( 'JJJ\\WP\\Term\\Meta\\UI' ) ) :
+if ( ! class_exists( __NAMESPACE__ . '\\UI' ) ) :
 /**
  * Main WP Term Meta UI class
  *
